@@ -5,3 +5,4 @@
 ```r
 # זהו קוד בשפת R
 print("Hello, World!")
+![image of cat](https://www.istockphoto.com/photos/cute-cat)
