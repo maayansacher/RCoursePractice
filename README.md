@@ -5,5 +5,6 @@
 ```r
 # זהו קוד בשפת R
 print("Hello, World!")
-![image](https://github.com/user-attachments/assets/4320fd8c-b0b0-450b-8ffc-955f11f0684c)
+```
+![image](https://github.com/user-attachments/assets/881dcb14-47be-4077-a149-047e12cc6afc)
 
