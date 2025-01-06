@@ -6,5 +6,5 @@
 # זהו קוד בשפת R
 print("Hello, World!")
 ```
-![image](https://github.com/user-attachments/assets/881dcb14-47be-4077-a149-047e12cc6afc)
+![image](https://github.com/user-attachments/assets/5d00ebf3-ed4d-4205-b494-e54125a79865)
 
