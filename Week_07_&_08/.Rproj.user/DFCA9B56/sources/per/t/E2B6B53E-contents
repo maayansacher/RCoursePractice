@@ -6,25 +6,28 @@
 #Ctrl + L to clear the console.
 
 #### CREATE RAW DATA ----
+rm(list = ls())
+install.packages(dplyr)
 library(dplyr)
 
+
 # combine files to one df
-files_names = dir("./R Projects/data.stroop")
+files_names = dir("./data.stroop")
 
 df = data.frame()
 
 for (file in files_names) {
-  df <- rbind(df, read.csv(paste0("./R Projects/data.stroop",file)))
+  df <- rbind(df, read.csv(paste0("./data.stroop/",file)))
 }
 
 # take only the columns we need
 df <- df |>
   mutate(
-    task       = ifelse(grepl("ink_naming", condition), "ink_naming", "word_reading"),
+    task       = ifelse(grepl("ink_naming", condition), "ink_naming", "word_reading"), #if the condition column includes teh in_naming, create a task with ink_naming and if not than have it be word reading
     congruency = ifelse(grepl("incong", condition), "incongruent", "congruent"),
     acc        = ifelse(participant_response == correct_response, 1, 0)
   ) |>
-  
+
   mutate(
     subject    = as.factor(subject),
     task       = as.factor(task),
@@ -35,6 +38,7 @@ df <- df |>
     rt         = as.numeric(rt)
   ) |>
   
+
   select(subject, block, trial, task, congruency, participant_response, correct_response, acc, rt)
 
 summary(df)
@@ -44,4 +48,4 @@ contrasts(df$task)<-c(1,0)
 contrasts(df$task)
 contrasts(df$congruency)
 
-save(df, file = "./data/raw_data.rdata")
+save(df, file = "raw_data.rdata")

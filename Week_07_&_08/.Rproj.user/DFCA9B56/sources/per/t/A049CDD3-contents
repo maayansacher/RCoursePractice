@@ -1,0 +1,133 @@
+#### CREATE FILTERED DATA ----
+
+load("./raw_data.RData")
+getwd()
+
+glimpdr(df)
+
+cat("Number of unique subjects:", length(unique(df$subject)))
+
+# Remove NA 
+df <- df |> filter(!is.na(rt))
+
+# Remove RT outliers (below 300 or above 3000)
+df <- df |> filter(rt >= 300 & rt <= 3000)
+
+#check the percentage of remaining trials
+df |>  group_by(subject) |> summarise(percentage = 1 - (n() / 400)) |>  print(n = Inf)
+
+#מטלה 8
+library(ggplot2)
+library(ggdist)
+
+remaining_trials <- df |> 
+  group_by(subject) |> 
+  summarise(percentage = 1 - (n() / 400))
+
+# ggplot(data = remaining_trials, aes(x = factor(subject), y = percentage)) +
+#   geom_bar(stat = "identity", fill = "steelblue") + # יצירת עמודות
+#   labs(
+#     title = "Percentage of Trials Missing by Subject",
+#     x = "Subject ID",
+#     y = "Percentage Missing"
+#   ) +
+#   theme_minimal() + # עיצוב פשוט ונקי
+#   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) # תצוגת אחוזים בציר ה-Y
+
+ggplot(data = remaining_trials, aes(x = factor(subject), y = percentage)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    title = "Percentage of Trials Missing by Subject",
+    x = "Subject ID",
+    y = "Percentage Missing"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)  # הטיה של 45 מעלות
+  )
+
+#הצגה רק של חלק מהנבדקים (כל נבדק חמישי)
+ggplot(data = remaining_trials, aes(x = factor(subject), y = percentage)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    title = "Percentage of Trials Missing by Subject",
+    x = "Subject ID",
+    y = "Percentage Missing"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  scale_x_discrete(
+    breaks = levels(factor(remaining_trials$subject))[seq(1, length(unique(remaining_trials$subject)), by = 5)]  # הצגת כל נבדק חמישי
+  )
+
+#שימוש בפאנלים במקום ציר צפוף
+ggplot(data = remaining_trials, aes(x = factor(subject), y = percentage)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    title = "Percentage of Trials Missing by Subject",
+    x = "Subject ID",
+    y = "Percentage Missing"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  facet_wrap(~ subject, scales = "free_x", nrow = 4)  # יצירת פאנלים לפי subject
+
+
+#צמצום מספר הנבדקים המוצגים (לדוגמה: רק 20 נבדקים עם אחוזים גבוהים)
+library(dplyr)
+
+# הצגת 20 הנבדקים עם האחוז הגבוה ביותר של נתונים חסרים
+top_subjects <- remaining_trials |> 
+  top_n(20, wt = percentage)
+
+ggplot(data = top_subjects, aes(x = factor(subject), y = percentage)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    title = "Top 20 Subjects with Highest Percentage of Missing Trials",
+    x = "Subject ID",
+    y = "Percentage Missing"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)  # הטיה של 45 מעלות
+  )
+
+#שימוש בגרף חלופי (למשל: נקודות או Boxplot)
+ggplot(data = remaining_trials, aes(x = factor(subject), y = percentage)) +
+  geom_point(size = 3, color = "steelblue") +  # גרף נקודות
+  labs(
+    title = "Percentage of Trials Missing by Subject",
+    x = "Subject ID",
+    y = "Percentage Missing"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)  # הטיה של 45 מעלות
+  )
+
+save(df, file = "./data/filtered_data.rdata")
+
+# 
+# num_subjects <- length(unique(df$ID))
+# print(paste("Number of subjects:", num_subjects))
+# 
+# #is the example provided more correct than the above?
+# #cat("Number of unique subjects:", length(unique(df$subject)))
+# 
+# na.omit(df)
+# 
+# #is the code above incorrect? Should I be using the following instead?
+# #df <- df |> filter(!is.na(rt))
+# 
+# df <- df |>
+#   filter(RT >= 0.3, RT <= 3)
+# 
+# library(dplyr)
+# 
+# #I didn't understand the instructions of portion of the assignment
+# df |>  group_by(subject) |> summarise(percentage = 1 - (n() / 400)) |>  print(n = Inf)
+
+save(df, file = "./data/filtered_data.rdata")
