@@ -6,5 +6,4 @@ print("Filtered and prepared Stroop task data for further analysis in week 07 R 
 
 ### Week 09 Use of Functions for Statistical Analysis
 print("Conducted data analysis using a function for filtering data based on the type of variable (i.e., characters versus integers), limiting it to results (only those with above 10 observations), and establishing a range (with the "subject_start" and "subject_end").")
-```r
-# זהו קוד בשפת R
+
