@@ -26,8 +26,8 @@ Filtered and prepared Stroop task data for further analysis in week 07 R files. 
 ### Week 09 Use of Functions for Statistical Analysis
 Conducted data analysis using a function for filtering data based on the type of variable (i.e., characters versus integers), limiting it to results (only those with above 10 observations), and establishing a range (with the "subject_start" and "subject_end").
 
-### Week 10 
-Analyzing records on the survivors of the Titanic, we were able to create a model that identifies the characteristics that predict the potential for survival. Specifically, comparing across three model options, we can see that model 3 that takes into consideration gender and class (e.g., first class or other) can provide a relatively accurate prediction of the survival rate (with a AUC of 0.8165, compared to 0.5 and 0.753 for models 1 and 2). The image below of the ROC curves shows the differences between the quality for the prediction models. 
+### Week 10 Logistical Regression and the Use of ROC to Compare Statistical Models
+Analyzing records on the survivors of the Titanic, we were able to create a model that identifies the characteristics that predict the potential for survival. First, we conducted a logistical regression, using glm, across different categories. This allowed us to establish three different models that used different factors to make these predictions. Then, we used ROC and AUC to compare the three model options. This analysis revealed that model 3, which takes into consideration gender and class (e.g., first class or other), can provide a relatively accurate prediction of the survival rate (with an AUC of 0.8165, compared to 0.5 and 0.753 for models 1 and 2). The image below of the ROC curves shows the differences between the quality of the prediction models. 
 
 ![image](https://github.com/user-attachments/assets/bb1d9001-7a45-4815-b58a-0781d9e00a4c)
 
